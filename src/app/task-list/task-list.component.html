@@ -1,35 +1,28 @@
 <div class="task-list">
-  <h2>Lista de Tareas</h2>
-
-  <!-- Filtro de tareas -->
-  <div class="filters">
-    <button (click)="setFilterStatus('all')">Todas</button>
-    <button (click)="setFilterStatus('completed')">Completadas</button>
-    <button (click)="setFilterStatus('pending')">Pendientes</button>
+  <div class="filter-container">
+    <label for="filter">Filtrar por estado:</label>
+    <select id="filter" [(ngModel)]="filter" (change)="applyFilter()">
+      <option value="all">Todas</option>
+      <option value="completed">Completadas</option>
+      <option value="pending">Pendientes</option>
+    </select>
   </div>
 
-  <!-- Listado de tareas -->
-  <ul>
-    <li *ngFor="let task of filteredTasks">
-      <div>
-        <strong>{{ task.title }}</strong> ({{ task.completed ? 'Completada' : 'Pendiente' }})
-        <button (click)="toggleTaskCompletion(task)">
-          {{ task.completed ? 'Marcar como pendiente' : 'Marcar como completada' }}
-        </button>
-      </div>
+  <div *ngFor="let task of filteredTasks" class="task-item" [ngClass]="{'completed': task.completed}">
+    <div class="task-header">
+      <span>{{ task.title }} - {{ task.deadline | date }}</span>
+      <button *ngIf="!task.completed" class="complete-btn" (click)="markAsCompleted(task.id)">
+        Marcar como completada
+      </button>
+    </div>
 
-      <!-- Listado de personas asociadas a la tarea -->
-      <div *ngIf="task.persons && task.persons.length > 0">
-        <h4>Personas Asociadas:</h4>
-        <ul>
-          <li *ngFor="let person of task.persons">
-            {{ person.name }} (Edad: {{ person.age }})
-            <ul>
-              <li *ngFor="let skill of person.skills">Habilidad: {{ skill }}</li>
-            </ul>
-          </li>
+    <div class="task-persons">
+      <div *ngFor="let person of task.persons" class="person-item">
+        <h4>{{ person.name }} ({{ person.age }} años)</h4>
+        <ul class="skills-list">
+          <li *ngFor="let skill of person.skills" class="skill-item">{{ skill }}</li>
         </ul>
       </div>
-    </li>
-  </ul>
+    </div>
+  </div>
 </div>

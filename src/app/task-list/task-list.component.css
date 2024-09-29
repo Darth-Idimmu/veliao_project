@@ -1,86 +1,111 @@
-/* Estilos generales para la lista de tareas */
+/* Estilos generales para el listado de tareas */
 .task-list {
-  max-width: 600px;
+  max-width: 800px;
   margin: 0 auto;
   padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: #f9f9f9;
+  font-family: Arial, sans-serif;
 }
 
-/* Estilo para el encabezado */
-.task-list h2 {
-  text-align: center;
-  color: #333;
+table {
+  width: 100%;
 }
 
-/* Filtros de tareas */
-.filters {
+.mat-elevation-z8 {
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+th.mat-header-cell, td.mat-cell {
+  padding: 16px;
+}
+
+.mat-paginator {
+  margin-top: 20px;
+}
+
+/* Estilo para el contenedor del filtro */
+.filter-container {
+  margin-bottom: 20px;
   display: flex;
-  justify-content: center;
-  margin-bottom: 15px;
+  align-items: center;
 }
 
-.filters button {
-  margin: 0 5px;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  background-color: #007bff;
-  color: white;
-  transition: background-color 0.3s;
+.filter-container label {
+  margin-right: 10px;
+  font-weight: bold;
 }
 
-.filters button:hover {
-  background-color: #0056b3;
+.filter-container select {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
-/* Estilo para la lista de tareas */
+/* Estilo para cada item de tarea */
 .task-item {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+  background-color: #f9f9f9;
+  transition: background-color 0.3s ease;
+}
+
+/* Si la tarea está completada, cambiar el fondo y el estilo */
+.task-item.completed {
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+  color: #155724;
+}
+
+/* Estilo para el encabezado de la tarea */
+.task-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
-  transition: background-color 0.3s;
+  font-size: 16px;
+  font-weight: bold;
 }
 
-.task-item:last-child {
-  border-bottom: none;
-}
-
-.task-item.completed {
-  background-color: #d4edda;
-  text-decoration: line-through;
-}
-
-/* Estilo para el botón de completar */
-.complete-button {
+.task-header button.complete-btn {
   background-color: #28a745;
   color: white;
   border: none;
   padding: 5px 10px;
-  border-radius: 5px;
+  border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s ease;
 }
 
-.complete-button:hover {
+.task-header button.complete-btn:hover {
   background-color: #218838;
 }
 
-/* Estilo para el botón de eliminar */
-.delete-button {
-  background-color: #dc3545;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
+/* Estilo para las personas asignadas a cada tarea */
+.task-persons {
+  margin-top: 10px;
 }
 
-.delete-button:hover {
-  background-color: #c82333;
+.person-item {
+  background-color: #f1f1f1;
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+.person-item h4 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* Estilo para la lista de habilidades */
+.skills-list {
+  padding-left: 20px;
+  margin-top: 5px;
+}
+
+.skill-item {
+  font-size: 12px;
+  color: #555;
+  list-style-type: circle;
 }

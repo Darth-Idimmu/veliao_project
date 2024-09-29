@@ -5,29 +5,33 @@ import { Task } from '../models/task.model';
 @Component({
   selector: 'app-task-list',
   templateUrl: './task-list.component.html',
+  styleUrls: ['./task-list.component.css']
 })
 export class TaskListComponent implements OnInit {
   tasks: Task[] = [];
   filteredTasks: Task[] = [];
-  filterStatus: 'all' | 'completed' | 'pending' = 'all';
+  filter = 'all'; // Default to show all tasks
 
   constructor(private taskService: TaskService) {}
 
-  ngOnInit(): void {
-    // Suscribirse al observable tasks$
+  ngOnInit() {
     this.taskService.tasks$.subscribe((tasks) => {
       this.tasks = tasks;
       this.applyFilter();
     });
   }
 
-  applyFilter(): void {
-    if (this.filterStatus === 'all') {
-      this.filteredTasks = this.tasks;
-    } else if (this.filterStatus === 'completed') {
-      this.filteredTasks = this.tasks.filter(task => task.completed);
+  markAsCompleted(taskId: number) {
+    this.taskService.markAsCompleted(taskId);
+  }
+
+  applyFilter() {
+    if (this.filter === 'completed') {
+      this.filteredTasks = this.tasks.filter((task) => task.completed);
+    } else if (this.filter === 'pending') {
+      this.filteredTasks = this.tasks.filter((task) => !task.completed);
     } else {
-      this.filteredTasks = this.tasks.filter(task => !task.completed);
+      this.filteredTasks = this.tasks;
     }
   }
 
@@ -36,7 +40,8 @@ export class TaskListComponent implements OnInit {
   }
 
   setFilterStatus(status: 'all' | 'completed' | 'pending'): void {
-    this.filterStatus = status;
+    this.filter = status;
     this.applyFilter();
   }
+  
 }
