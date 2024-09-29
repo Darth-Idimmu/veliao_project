@@ -1,0 +1,86 @@
+/* Estilos generales para la lista de tareas */
+.task-list {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+/* Estilo para el encabezado */
+.task-list h2 {
+  text-align: center;
+  color: #333;
+}
+
+/* Filtros de tareas */
+.filters {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.filters button {
+  margin: 0 5px;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  transition: background-color 0.3s;
+}
+
+.filters button:hover {
+  background-color: #0056b3;
+}
+
+/* Estilo para la lista de tareas */
+.task-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  transition: background-color 0.3s;
+}
+
+.task-item:last-child {
+  border-bottom: none;
+}
+
+.task-item.completed {
+  background-color: #d4edda;
+  text-decoration: line-through;
+}
+
+/* Estilo para el botón de completar */
+.complete-button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.complete-button:hover {
+  background-color: #218838;
+}
+
+/* Estilo para el botón de eliminar */
+.delete-button {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.delete-button:hover {
+  background-color: #c82333;
+}

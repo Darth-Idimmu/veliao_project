@@ -1,1 +1,35 @@
-<p>task-list works!</p>
+<div class="task-list">
+  <h2>Lista de Tareas</h2>
+
+  <!-- Filtro de tareas -->
+  <div class="filters">
+    <button (click)="setFilterStatus('all')">Todas</button>
+    <button (click)="setFilterStatus('completed')">Completadas</button>
+    <button (click)="setFilterStatus('pending')">Pendientes</button>
+  </div>
+
+  <!-- Listado de tareas -->
+  <ul>
+    <li *ngFor="let task of filteredTasks">
+      <div>
+        <strong>{{ task.title }}</strong> ({{ task.completed ? 'Completada' : 'Pendiente' }})
+        <button (click)="toggleTaskCompletion(task)">
+          {{ task.completed ? 'Marcar como pendiente' : 'Marcar como completada' }}
+        </button>
+      </div>
+
+      <!-- Listado de personas asociadas a la tarea -->
+      <div *ngIf="task.persons && task.persons.length > 0">
+        <h4>Personas Asociadas:</h4>
+        <ul>
+          <li *ngFor="let person of task.persons">
+            {{ person.name }} (Edad: {{ person.age }})
+            <ul>
+              <li *ngFor="let skill of person.skills">Habilidad: {{ skill }}</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+</div>
