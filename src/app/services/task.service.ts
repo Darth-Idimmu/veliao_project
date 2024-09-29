@@ -25,5 +25,11 @@ export class TaskService {
     this.tasks.next(updatedTasks);
   }
 
+  private apiUrl = 'https://jsonplaceholder.typicode.com/todos';
 
+  constructor(private http: HttpClient) { }
+
+  fetchTasks() {
+    return this.http.get<Task[]>(this.apiUrl);
+  }
 }
