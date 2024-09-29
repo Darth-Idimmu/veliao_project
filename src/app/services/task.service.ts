@@ -10,12 +10,40 @@ export class TaskService {
   private tasks = new BehaviorSubject<Task[]>([]);
   tasks$ = this.tasks.asObservable();
 
-  addTask(task: Task) {
+  private apiUrl = 'https://jsonplaceholder.typicode.com/todos';
+
+  constructor(private http: HttpClient) {
+    // Cargar las tareas desde la API cuando el servicio se inicializa
+    this.fetchTasks();
+  }
+
+  // Obtener las tareas desde la API
+  fetchTasks(): void {
+    this.http.get<Task[]>(this.apiUrl).subscribe((tasks) => {
+      // Asigna las tareas obtenidas al BehaviorSubject
+      this.tasks.next(tasks);
+    });
+  }
+
+  // Agregar una nueva tarea
+  addTask(task: Task): void {
     const currentTasks = this.tasks.getValue();
     this.tasks.next([...currentTasks, task]);
   }
+  
+  // Alternar el estado de completado de una tarea
+  toggleTaskCompletion(taskId: number): void {
+    const updatedTasks = this.tasks.getValue().map(task => {
+      if (task.id === taskId) {
+        return { ...task, completed: !task.completed };
+      }
+      return task;
+    });
+    this.tasks.next(updatedTasks);
+  }
 
-  markAsCompleted(taskId: number) {
+  // Marcar una tarea como completada
+  markAsCompleted(taskId: number): void {
     const updatedTasks = this.tasks.getValue().map(task => {
       if (task.id === taskId) {
         return { ...task, completed: true };
@@ -23,13 +51,5 @@ export class TaskService {
       return task;
     });
     this.tasks.next(updatedTasks);
-  }
-
-  private apiUrl = 'https://jsonplaceholder.typicode.com/todos';
-
-  constructor(private http: HttpClient) { }
-
-  fetchTasks() {
-    return this.http.get<Task[]>(this.apiUrl);
   }
 }
