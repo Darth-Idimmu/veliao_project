@@ -10,10 +10,23 @@ import { catchError, tap } from 'rxjs/operators';
 export class TaskService {
   private tasks = new BehaviorSubject<Task[]>(this.loadTasksFromLocalStorage());
   tasks$ = this.tasks.asObservable();
-  
   private apiUrl = 'https://jsonplaceholder.typicode.com/todos';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
+
+  addTask(task: Task) {
+    const currentTasks = this.tasks.getValue();
+    const sortedTasks = [...currentTasks, task].sort((a, b) => new Date(a.deadline).getTime() - new Date(b.deadline).getTime());
+    this.tasks.next(sortedTasks);
+    this.saveTasksToLocalStorage(sortedTasks);
+  }
+
+  loadTasksFromStorage() {
+    const storedTasks = localStorage.getItem('tasks');
+    if (storedTasks) {
+      this.tasks.next(JSON.parse(storedTasks));
+    }
+  }
 
   // Obtener las tareas desde la API y actualizar el BehaviorSubject
   fetchTasks(): Observable<Task[]> {
@@ -27,14 +40,6 @@ export class TaskService {
         return [];
       })
     );
-  }
-
-  // Agregar una nueva tarea
-  addTask(task: Task): void {
-    const currentTasks = this.tasks.getValue();
-    const updatedTasks = [...currentTasks, task];
-    this.tasks.next(updatedTasks);
-    this.saveTasksToLocalStorage(updatedTasks);
   }
 
   // Alternar el estado de completado de una tarea
@@ -66,7 +71,6 @@ export class TaskService {
     localStorage.setItem('tasks', JSON.stringify(tasks));
   }
 
-  // Cargar las tareas desde localStorage
   private loadTasksFromLocalStorage(): Task[] {
     const tasks = localStorage.getItem('tasks');
     return tasks ? JSON.parse(tasks) : [];
