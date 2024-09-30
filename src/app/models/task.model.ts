@@ -1,10 +1,10 @@
-import { Person } from "./person.model";
+import { User } from "./person.model";
 
 export interface Task {
-  id: number;
+  id: number; // Para permitir tareas sin ID (asignado luego)
   title: string;
   deadline: Date;
-  completed: boolean;
-  persons: Person[];
+  user: number; // userId de la persona asignada
+  persons: User[]; // Lista de usuarios
+  completed?: boolean; // Estado opcional
 }
-
