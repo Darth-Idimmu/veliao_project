@@ -1,1 +1,22 @@
-<p>person-form works!</p>
+<form [formGroup]="personForm" (ngSubmit)="addPerson()">
+  <div>
+    <label for="name">Nombre</label>
+    <input id="name" formControlName="name" placeholder="Nombre completo" />
+  </div>
+
+  <div>
+    <label for="age">Edad</label>
+    <input id="age" formControlName="age" placeholder="Edad" type="number" />
+  </div>
+
+  <div formArrayName="skills">
+    <label>Habilidades</label>
+    <div *ngFor="let skill of skills.controls; let i = index">
+      <input [formControlName]="i" placeholder="Habilidad" />
+      <button type="button" (click)="removeSkill(i)">Eliminar Habilidad</button>
+    </div>
+    <button type="button" (click)="addSkill()">Añadir Habilidad</button>
+  </div>
+
+  <button type="submit">Añadir Persona</button>
+</form>
