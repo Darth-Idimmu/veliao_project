@@ -11,28 +11,26 @@ import { User } from '../models/person.model';
 })
 export class TaskFormComponent implements OnInit {
   taskForm!: FormGroup;
-  users: User[] = []; // Tipo de usuarios
+  users: User[] = []; // Aquí almacenamos la lista de usuarios
 
-  constructor(
-    private fb: FormBuilder,
-    private taskService: TaskService,
-    private userService: UserService
-  ) {}
-
-  ngOnInit() {
-    this.users = this.userService.getUsers(); // Cargar usuarios
+  constructor(private fb: FormBuilder, private userService: UserService) {
     this.taskForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(5)]],
       deadline: ['', Validators.required],
-      user: ['', Validators.required] // Seleccionar usuario
+      user: ['', Validators.required],
+      persons: this.fb.array([]) // Si tienes un FormArray para personas
     });
+  }
+
+  ngOnInit(): void {
+    // Asignamos directamente los usuarios al array `users`
+    this.users = this.userService.getUsers();
   }
 
   submitForm() {
     if (this.taskForm.valid) {
       const taskData = { ...this.taskForm.value, persons: [] }; // persons vacío por ahora
-      this.taskService.addTask(taskData);
-      this.taskForm.reset();
+      
     }
   }
 
