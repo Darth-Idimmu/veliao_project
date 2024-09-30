@@ -36,7 +36,7 @@ export class TaskListComponent implements OnInit {
   }
 
   toggleTaskCompletion(task: Task): void {
-    this.taskService.toggleTaskCompletion(task.id);
+    this.taskService.toggleTaskCompletion(task.id)
   }
 
   setFilterStatus(status: 'all' | 'completed' | 'pending'): void {

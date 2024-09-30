@@ -2,7 +2,6 @@
   <h2>Crear Nueva Tarea</h2>
 
   <form [formGroup]="taskForm" (ngSubmit)="submitForm()">
-
     <!-- Campo Nombre de la Tarea -->
     <div class="form-group">
       <label for="title">Nombre de la Tarea</label>
@@ -30,7 +29,18 @@
       </div>
     </div>
 
-    <!-- Lista de Personas -->
+    <!-- Selección de Usuario -->
+    <div class="form-group">
+      <label for="user">Asignar a Persona</label>
+      <select id="user" formControlName="user">
+        <option *ngFor="let user of users" [value]="user.userId">{{ user.name }}</option>
+      </select>
+      <div *ngIf="taskForm.get('user')?.invalid && taskForm.get('user')?.touched">
+        <small class="error">Debes asignar un usuario a esta tarea</small>
+      </div>
+    </div>
+
+    <!-- Lista de Personas (si es necesario) -->
     <div formArrayName="persons">
       <div *ngFor="let person of persons.controls; let i = index" [formGroupName]="i" class="person-group">
         <h3>Persona {{ i + 1 }}</h3>
@@ -72,7 +82,6 @@
           </div>
           <button type="button" (click)="addSkill(i)">Añadir Habilidad</button>
         </div>
-        
 
         <button type="button" (click)="removePerson(i)">Eliminar Persona</button>
         <hr />
@@ -83,6 +92,5 @@
 
     <!-- Botón de Envío -->
     <button type="submit" [disabled]="taskForm.invalid">Crear Tarea</button>
-
   </form>
 </div>

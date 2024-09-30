@@ -1,21 +1,39 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TaskService } from '../services/task.service';
+import { UserService } from '../services/user.service';
+import { User } from '../models/person.model';
 
 @Component({
   selector: 'app-task-form',
   templateUrl: './task-form.component.html',
   styleUrls: ['./task-form.component.css']
 })
-export class TaskFormComponent {
-  taskForm: FormGroup;
+export class TaskFormComponent implements OnInit {
+  taskForm!: FormGroup;
+  users: User[] = []; // Tipo de usuarios
 
-  constructor(private fb: FormBuilder, private taskService: TaskService) {
+  constructor(
+    private fb: FormBuilder,
+    private taskService: TaskService,
+    private userService: UserService
+  ) {}
+
+  ngOnInit() {
+    this.users = this.userService.getUsers(); // Cargar usuarios
     this.taskForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(5)]],
       deadline: ['', Validators.required],
-      persons: this.fb.array([]),
+      user: ['', Validators.required] // Seleccionar usuario
     });
+  }
+
+  submitForm() {
+    if (this.taskForm.valid) {
+      const taskData = { ...this.taskForm.value, persons: [] }; // persons vacío por ahora
+      this.taskService.addTask(taskData);
+      this.taskForm.reset();
+    }
   }
 
   get persons(): FormArray {
@@ -48,11 +66,5 @@ export class TaskFormComponent {
 
   getSkills(personIndex: number): FormArray {
     return (this.persons.at(personIndex).get('skills') as FormArray);
-  }
-
-  submitForm() {
-    if (this.taskForm.valid) {
-      this.taskService.addTask(this.taskForm.value);
-    }
   }
 }
